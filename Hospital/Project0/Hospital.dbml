@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Hospital" Class="HospitalDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\Hospital.mdf;Integrated Security=True;Connect Timeout=30;User Instance=True" SettingsObjectName="Project0.Properties.Settings" SettingsPropertyName="HospitalConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Departments" Member="Departments">
+    <Type Name="Department">
+      <Column Name="Dept_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Dept_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Doctor" Member="Doctors" ThisKey="Dept_id" OtherKey="Dept_id" Type="Doctor" />
+      <Association Name="Department_Patient_Admission" Member="Patient_Admissions" ThisKey="Dept_id" OtherKey="Dept_id" Type="Patient_Admission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Doctors" Member="Doctors">
+    <Type Name="Doctor">
+      <Column Name="Doctor_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Doctor_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Doctor_surname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Dept_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="User_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Association Name="Doctor_Patient_Admission" Member="Patient_Admissions" ThisKey="Doctor_id" OtherKey="Doctor_id" Type="Patient_Admission" />
+      <Association Name="Department_Doctor" Member="Department" ThisKey="Dept_id" OtherKey="Dept_id" Type="Department" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="User_Doctor" Member="User" ThisKey="User_id" OtherKey="User_id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Patient_Admissions" Member="Patient_Admissions">
+    <Type Name="Patient_Admission">
+      <Column Name="Patient_ad_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Patient_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Dept_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Doctor_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Date_in" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Complaint" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Diagnosis" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Prescription" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Blood_analysis" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Urianalysis" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Xray" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Department_Patient_Admission" Member="Department" ThisKey="Dept_id" OtherKey="Dept_id" Type="Department" IsForeignKey="true" />
+      <Association Name="Doctor_Patient_Admission" Member="Doctor" ThisKey="Doctor_id" OtherKey="Doctor_id" Type="Doctor" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Patient_Patient_Admission" Member="Patient" ThisKey="Patient_id" OtherKey="Patient_id" Type="Patient" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Patients" Member="Patients">
+    <Type Name="Patient">
+      <Column Name="Patient_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Ssn" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Father_name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Birth_place" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Birth_date" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Sex" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Association Name="Patient_Patient_Admission" Member="Patient_Admissions" ThisKey="Patient_id" OtherKey="Patient_id" Type="Patient_Admission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staffs" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="Staff_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Surname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="User_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="User_Staff" Member="User" ThisKey="User_id" OtherKey="User_id" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="User">
+      <Column Name="User_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="User_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Job" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="E_mail" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="User_Doctor" Member="Doctors" ThisKey="User_id" OtherKey="User_id" Type="Doctor" />
+      <Association Name="User_Staff" Member="Staffs" ThisKey="User_id" OtherKey="User_id" Type="Staff" />
+    </Type>
+  </Table>
+</Database>
